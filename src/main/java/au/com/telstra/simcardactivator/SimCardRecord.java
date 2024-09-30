@@ -1,18 +1,25 @@
 package au.com.telstra.simcardactivator;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class SimCard {
+@Entity
+public class SimCardRecord {
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private Long id;
+    
     private String iccid;
     private String customerEmail;
     private boolean activationSuccess;
 
-    public SimCard() {
+    public SimCardRecord() {
 
     }
 
-    public SimCard(String iccid, String customerEmail, boolean active) {
+    public SimCardRecord(String iccid, String customerEmail, boolean active) {
         this.iccid = iccid;
         this.customerEmail = customerEmail;
         this.activationSuccess = active;
@@ -24,6 +31,10 @@ public class SimCard {
 
     public String getCustomerEmail() {
         return customerEmail;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public boolean getActivationSuccess() {
@@ -41,4 +52,5 @@ public class SimCard {
     public void setActivationSuccess(boolean activationSuccess) {
         this.activationSuccess = activationSuccess;
     }
+
 }

@@ -23,12 +23,12 @@ public class SimCardActivatorController {
         String iccid = simCard.getIccid();
         String email = simCard.getCustomerEmail();
         boolean active = activationResult.getSuccess();
-        repository.save(new SimCard(iccid, email, active));
+        repository.save(new SimCardRecord(iccid, email, active));
     }
 
     @GetMapping(path = "/", produces = "application/json")
-    public SimCard getSimCard(@RequestParam long simCardId) {
-        SimCard simCard = repository.findById(simCardId);
+    public SimCardRecord getSimCard(@RequestParam long simCardId) {
+        SimCardRecord simCard = repository.findById(simCardId);
         return simCard;
     }
 

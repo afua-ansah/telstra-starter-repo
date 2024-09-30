@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import au.com.telstra.simcardactivator.ActivationResult;
-import au.com.telstra.simcardactivator.SimCard;
+import au.com.telstra.simcardactivator.SimCardRecord;
 import au.com.telstra.simcardactivator.SimCardActivator;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -30,11 +30,11 @@ public class SimCardActivatorStepDefinitions {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private SimCard simCard;
+    private SimCardRecord simCard;
 
     @Given("SIM card ICCID is {string}")
     public void simcard_is(String iccid) {
-        this.simCard = new SimCard(iccid, "random@yahoo.com", true);
+        this.simCard = new SimCardRecord(iccid, "random@yahoo.com", true);
     }
 
     @When("I ask whether it's activated")
@@ -47,7 +47,7 @@ public class SimCardActivatorStepDefinitions {
         String endpoint = this.simCard.getIccid().equals("1255789453849037777") ? "?simCardId=1" : "?simCardId=2";
         ResponseEntity<String> actualStatus = restTemplate.getForEntity("http://localhost:8080/activate/" + endpoint, String.class);
 
-        SimCard response = objectMapper.readValue(actualStatus.getBody(), SimCard.class);
+        SimCardRecord response = objectMapper.readValue(actualStatus.getBody(), SimCardRecord.class);
         String activeStatus = response.getActivationSuccess() ? "true" : "false"; // Convert boolean to String
         System.out.println(activeStatus);
         assertEquals(expectedStatus, activeStatus);
